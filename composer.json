@@ -21,9 +21,5 @@
             "": "src"
         }
     },
-    "repositories": [{
-        "type": "vcs",
-        "url" : "/Users/steverobbins/Project/magento-download"
-    }],
     "bin": ["bin/magescan"]
 }
