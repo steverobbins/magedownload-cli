@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "84a6ef8192148c879756e29c7d69dd2e",
-    "content-hash": "caaa994d4e911d5a65ef7a78d5f8910c",
+    "hash": "33db7a4a32ec292fbd27bd4ebdf7ebd3",
+    "content-hash": "6e0077ca7fd153ff0e03cbeaf29f34fa",
     "packages": [
         {
             "name": "guzzlehttp/guzzle",
@@ -232,8 +232,14 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "/Users/steverobbins/Project/magento-download",
-                "reference": "8696023190d496cb211639ca47f3e687eb2fd27f"
+                "url": "https://github.com/steverobbins/magento-download.git",
+                "reference": "584b6f878d09ee0827fc352bfa72655feb73692a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/steverobbins/magento-download/zipball/584b6f878d09ee0827fc352bfa72655feb73692a",
+                "reference": "584b6f878d09ee0827fc352bfa72655feb73692a",
+                "shasum": ""
             },
             "require-dev": {
                 "squizlabs/php_codesniffer": "^2.3"
@@ -244,6 +250,7 @@
                     "": "src"
                 }
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "CC-BY-4.0"
             ],
@@ -254,7 +261,7 @@
                 }
             ],
             "description": "Library to automate Magento edition and version downloads",
-            "time": "2015-10-29 18:41:23"
+            "time": "2015-10-30 20:43:17"
         },
         {
             "name": "symfony/console",
@@ -311,6 +318,56 @@
             "description": "Symfony Console Component",
             "homepage": "https://symfony.com",
             "time": "2015-10-20 14:38:46"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v2.6.11",
+            "target-dir": "Symfony/Component/Yaml",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Yaml.git",
+                "reference": "c044d1744b8e91aaaa0d9bac683ab87ec7cbf359"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Yaml/zipball/c044d1744b8e91aaaa0d9bac683ab87ec7cbf359",
+                "reference": "c044d1744b8e91aaaa0d9bac683ab87ec7cbf359",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "require-dev": {
+                "symfony/phpunit-bridge": "~2.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.6-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Yaml\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2015-07-26 08:59:42"
         }
     ],
     "packages-dev": [

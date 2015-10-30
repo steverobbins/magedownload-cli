@@ -63,8 +63,8 @@ class DownloadCommand extends AbstractCommand
         $file = $input->getArgument('file');
         $result = $download->get(
             $file,
-            $input->getOption('id'),
-            $input->getOption('token')
+            $this->getAccountId($input),
+            $this->getAccessToken($input)
         );
         $success = file_put_contents(getcwd() . DIRECTORY_SEPARATOR . $file, $result);
         if ($success) {

@@ -63,8 +63,8 @@ class InfoCommand extends AbstractCommand
         $info = new Info;
         $result = $info->sendCommand(
             $input->getArgument('action'),
-            $input->getOption('id'),
-            $input->getOption('token')
+            $this->getAccountId($input),
+            $this->getAccessToken($input)
         );
         $output->write($result, false, OutputInterface::OUTPUT_RAW);
     }
