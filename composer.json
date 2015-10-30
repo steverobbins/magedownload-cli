@@ -1,0 +1,29 @@
+{
+    "name": "steverobbins/magento-download-cli",
+    "description": "Download Magento editions and patches via command line",
+    "require": {
+        "symfony/console": "^2.7",
+        "guzzlehttp/guzzle": "~6.0",
+        "steverobbins/magento-download": "dev-master"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^2.3"
+    },
+    "license": "CC-BY-4.0",
+    "authors": [
+        {
+            "name": "Steve Robbins",
+            "email": "steve@steverobbins.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "": "src"
+        }
+    },
+    "repositories": [{
+        "type": "vcs",
+        "url" : "/Users/steverobbins/Project/magento-download"
+    }],
+    "bin": ["bin/magescan"]
+}
