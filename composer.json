@@ -1,11 +1,11 @@
 {
-    "name": "steverobbins/magento-download-cli",
+    "name": "steverobbins/magedownload-cli",
     "description": "Download Magento editions and patches via command line",
     "require": {
         "symfony/console": "^2.7",
         "guzzlehttp/guzzle": "~6.0",
         "symfony/yaml": "2.6.*",
-        "steverobbins/magento-download": "dev-master"
+        "steverobbins/magedownload": "dev-master"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.3"
@@ -22,5 +22,5 @@
             "": "src"
         }
     },
-    "bin": ["bin/magescan"]
+    "bin": ["bin/magedownload"]
 }

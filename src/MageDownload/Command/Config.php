@@ -1,34 +1,34 @@
 <?php
 /**
- * Magento Download CLI
+ * Magedownload CLI
  *
  * PHP version 5
  *
- * @category  MagentoDownload
- * @package   MagentoDownload
+ * @category  MageDownload
+ * @package   MageDownload
  * @author    Steve Robbins <steve@steverobbins.com>
  * @copyright 2015 Steve Robbins
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
- * @link      https://github.com/steverobbins/magento-download-cli
+ * @link      https://github.com/steverobbins/magedownload-cli
  */
 
-namespace MagentoDownload\Command;
+namespace MageDownload\Command;
 
 use Symfony\Component\Yaml\Yaml;
 
 /**
  * Config loader
  *
- * @category  MagentoDownload
- * @package   MagentoDownload
+ * @category  MageDownload
+ * @package   MageDownload
  * @author    Steve Robbins <steve@steverobbins.com>
  * @copyright 2015 Steve Robbins
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
- * @link      https://github.com/steverobbins/magento-download-cli
+ * @link      https://github.com/steverobbins/magedownload-cli
  */
 class Config
 {
-    const CONFIG_FILE_NAME = 'magento-download-cli.yaml';
+    const CONFIG_FILE_NAME = 'magedownload-cli.yaml';
 
     protected $userConfig;
 

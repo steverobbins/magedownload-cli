@@ -1,35 +1,35 @@
 <?php
 /**
- * Magento Download CLI
+ * Magedownload CLI
  *
  * PHP version 5
  *
- * @category  MagentoDownload
- * @package   MagentoDownload
+ * @category  MageDownload
+ * @package   MageDownload
  * @author    Steve Robbins <steve@steverobbins.com>
  * @copyright 2015 Steve Robbins
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
- * @link      https://github.com/steverobbins/magento-download-cli
+ * @link      https://github.com/steverobbins/magedownload-cli
  */
 
-namespace MagentoDownload\Command;
+namespace MageDownload\Command;
 
-use MagentoDownload\Download;
+use MageDownload\Info;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Download command
+ * Info command
  *
- * @category  MagentoDownload
- * @package   MagentoDownload
+ * @category  MageDownload
+ * @package   MageDownload
  * @author    Steve Robbins <steve@steverobbins.com>
  * @copyright 2015 Steve Robbins
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
- * @link      https://github.com/steverobbins/magento-download-cli
+ * @link      https://github.com/steverobbins/magedownload-cli
  */
-class DownloadCommand extends AbstractCommand
+class InfoCommand extends AbstractCommand
 {
     /**
      * Configure command
@@ -39,12 +39,13 @@ class DownloadCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('download')
-            ->setDescription('Download a release or patch')
+            ->setName('info')
+            ->setDescription('Get information about downloads')
             ->addArgument(
-                'file',
-                InputArgument::REQUIRED,
-                'The file to download'
+                'action',
+                InputArgument::OPTIONAL,
+                'Info command',
+                'help'
             );
         parent::configure();
     }
@@ -59,18 +60,12 @@ class DownloadCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $download = new Download;
-        $file = $input->getArgument('file');
-        $result = $download->get(
-            $file,
+        $info = new Info;
+        $result = $info->sendCommand(
+            $input->getArgument('action'),
             $this->getAccountId($input),
             $this->getAccessToken($input)
         );
-        $success = file_put_contents(getcwd() . DIRECTORY_SEPARATOR . $file, $result);
-        if ($success) {
-            $output->writeln(sprintf('File saved to <info>%s</info>', $file));
-        } else {
-            $output->writeln('<error>Failed to download file</error>');
-        }
+        $output->write($result, false, OutputInterface::OUTPUT_RAW);
     }
 }

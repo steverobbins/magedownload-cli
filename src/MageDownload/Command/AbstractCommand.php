@@ -1,18 +1,18 @@
 <?php
 /**
- * Magento Download CLI
+ * Magedownload CLI
  *
  * PHP version 5
  *
- * @category  MagentoDownload
- * @package   MagentoDownload
+ * @category  MageDownload
+ * @package   MageDownload
  * @author    Steve Robbins <steve@steverobbins.com>
  * @copyright 2015 Steve Robbins
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
- * @link      https://github.com/steverobbins/magento-download-cli
+ * @link      https://github.com/steverobbins/magedownload-cli
  */
 
-namespace MagentoDownload\Command;
+namespace MageDownload\Command;
 
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -21,12 +21,12 @@ use Symfony\Component\Console\Input\InputOption;
 /**
  * Abstract scan command
  *
- * @category  MagentoDownload
- * @package   MagentoDownload
+ * @category  MageDownload
+ * @package   MageDownload
  * @author    Steve Robbins <steve@steverobbins.com>
  * @copyright 2015 Steve Robbins
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
- * @link      https://github.com/steverobbins/magento-download-cli
+ * @link      https://github.com/steverobbins/magedownload-cli
  */
 abstract class AbstractCommand extends Command
 {
