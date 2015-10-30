@@ -1,7 +1,7 @@
 MageDownload CLI
 ===
 
-A PHP tool to automated Magento release and patch downloads
+A PHP tool to automate Magento release and patch downloads
 
 # Installation
 
