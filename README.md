@@ -46,11 +46,11 @@ To generate an access token, login to your account on magento.com and generate i
 
 All commands have the following options
 
-##### `--id=ID`
+##### `--id=ID` (optional)
 
 Your Magento account ID.
 
-##### `--token=TOKEN`
+##### `--token=TOKEN` (optional)
 
 Your Magento access token.
 
