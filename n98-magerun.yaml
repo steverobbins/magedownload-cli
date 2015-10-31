@@ -5,7 +5,8 @@ autoloaders:
 
 commands:
   customCommands:
-    - "download:file": MageDownload\Command\DownloadCommand
+    - "download:configure": MageDownload\Command\ConfigureCommand
+    - "download:file": MageDownload\Command\FileCommand
     - "download:info": MageDownload\Command\InfoCommand
 
 autoloaders_psr4:
