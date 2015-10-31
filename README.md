@@ -75,7 +75,7 @@ Your Magento access token.
 
     $ php magedownload.phar file <name> <destination>
 
-- or -
+or
 
     $ php n98-magerun.phar download:file <name> <destination>
 
@@ -87,7 +87,7 @@ If no destination is given, the file is downloaded to the directory the command 
 
     $ php magedownload.phar info <action>
 
-- or -
+or
 
     $ php n98-magerun.phar download:info <action>
 
