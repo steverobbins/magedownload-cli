@@ -15,7 +15,6 @@
 namespace MageDownload\Command;
 
 use MageDownload\Download;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -86,7 +85,7 @@ class ConfigureCommand extends AbstractCommand
         if ($success) {
             $output->writeln('<info>Configuration successfully updated</info>');
         } else {
-            $output->writeln('<error>Failed to update configuration</error>');            
+            $output->writeln('<error>Failed to update configuration</error>');
         }
     }
 
@@ -94,7 +93,7 @@ class ConfigureCommand extends AbstractCommand
      * Get the new value for config option
      *
      * @param string          $name
-     * @param string          $currentValue
+     * @param string|boolean  $currentValue
      * @param OutputInterface $output
      *
      * @return string
