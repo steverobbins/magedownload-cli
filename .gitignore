@@ -3,5 +3,6 @@
 *.sh
 *.zip
 /composer.lock
+/composer.phar
 /magedownload.phar
 /vendor/
