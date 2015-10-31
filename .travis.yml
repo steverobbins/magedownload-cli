@@ -17,3 +17,4 @@ install:
 
 script:
   - vendor/bin/phpcs --standard=./phpcs.xml -v --encoding=utf-8 ./src
+  - vendor/bin/phpunit -c phpunit.xml --debug
