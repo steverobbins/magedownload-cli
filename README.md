@@ -26,6 +26,8 @@ php composer.phar install
 
 ### n98 magerun
 
+*Requires version 1.97.6 or higher.*
+
 * Clone to your modules directory
 * Install with composer
 
