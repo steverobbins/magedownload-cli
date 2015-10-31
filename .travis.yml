@@ -15,6 +15,11 @@ install:
   - composer self-update
   - composer install -n --prefer-source
 
+before_script:
+  - mkdir -p build/log
+
 script:
   - vendor/bin/phpcs --standard=./phpcs.xml -v --encoding=utf-8 ./src
   - vendor/bin/phpunit -c phpunit.xml --debug
+  - php test/check-coverage.php build/log/clover.xml 50
+
