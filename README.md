@@ -56,11 +56,11 @@ Your Magento access token.
 
 ### `download`
 
-    $ magedownload.phar download <file>
+    $ magedownload.phar download <file> <destination>
 
-Downloads the specified file.
+Downloads the specified file to the given destination.
 
-Files are download to the directory the command is executed from.
+If no destination is given, the file is downloaded to the directory the command is executed from.
 
 ### `info`
 
