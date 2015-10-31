@@ -22,6 +22,7 @@ git clone https://github.com/steverobbins/magedownload-cli
 cd magedownload-cli
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
+```
 
 ### n98 magerun
 
