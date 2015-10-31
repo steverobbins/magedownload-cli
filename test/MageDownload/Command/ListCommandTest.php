@@ -18,22 +18,22 @@ use MageDownload\Command\PHPUnit\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Test the help command
+ * Test the list command
  */
-class HelpCommandTest extends TestCase
+class ListCommandTest extends TestCase
 {
     /**
-     * Test the help command
+     * Test the list command
      *
      * @return void
      */
     public function testCommand()
     {
         $app           = $this->getApplication();
-        $command       = $app->find('help');
+        $command       = $app->find('list');
         $commandTester = new CommandTester($command);
         $result        = $commandTester->execute([
-            'command' => 'help',
+            'command' => 'list',
         ]);
         $this->assertEquals(0, $result);
     }
