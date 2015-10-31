@@ -1,6 +1,8 @@
 MageDownload CLI
 ===
 
+[![Build Status](https://travis-ci.org/steverobbins/magedownload-cli.svg?branch=master)](https://travis-ci.org/steverobbins/magedownload-cli)
+
 A PHP tool to automate Magento release and patch downloads
 
 # Installation
