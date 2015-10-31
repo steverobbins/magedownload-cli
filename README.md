@@ -63,7 +63,7 @@ Your Magento access token.
 
 Downloads the specified file to the given destination.
 
-If no destination is given, the file is downloaded to the directory the command is executed from.
+If no destination is given, the file is downloaded to current directory.
 
 ### `info`
 
