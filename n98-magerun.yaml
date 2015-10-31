@@ -1,0 +1,10 @@
+autoloaders:
+  MageDownload: 
+    - %module%/src
+    - %module%/vendor/steverobbins/magedownload/src
+  GuzzleHttp: %module%/vendor/guzzlehttp/guzzle/src
+
+commands:
+  customCommands:
+    - "download:file": MageDownload\Command\DownloadCommand
+    - "download:info": MageDownload\Command\InfoCommand
