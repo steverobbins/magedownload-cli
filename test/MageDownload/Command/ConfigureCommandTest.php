@@ -18,23 +18,25 @@ use MageDownload\Command\PHPUnit\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
 /**
- * Test the help command
+ * Test the configure command
  */
-class HelpCommandTest extends TestCase
+class ConfigureCommandTest extends TestCase
 {
     /**
-     * Test the help command
+     * Test the configure command
      *
      * @return void
      */
     public function testCommand()
     {
-        $command       = $this->getApplication()->find('help');
+        $command       = $this->getApplication()->find('configure');
         $commandTester = new CommandTester($command);
         $result        = $commandTester->execute([
-            'command' => 'help',
+            'command' => 'configure',
+            '--id'    => 'MAG000000000',
+            '--token' => 'abcdef1234567890abcdef1234567890abcdef12',
         ]);
         $this->assertEquals(0, $result);
-        $this->assertContains('The help command displays help for a given command', $commandTester->getDisplay());
+        $this->assertContains('Configuration successfully updated', $commandTester->getDisplay());
     }
 }
