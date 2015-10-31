@@ -7,6 +7,7 @@
         "steverobbins/magedownload": "^1.0"
     },
     "require-dev": {
+        "phpunit/phpunit": "~4.0",
         "squizlabs/php_codesniffer": "^2.3"
     },
     "license": "CC-BY-4.0",
