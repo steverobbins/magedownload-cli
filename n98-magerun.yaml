@@ -2,9 +2,19 @@ autoloaders:
   MageDownload: 
     - %module%/src
     - %module%/vendor/steverobbins/magedownload/src
-  GuzzleHttp: %module%/vendor/guzzlehttp/guzzle/src
 
 commands:
   customCommands:
     - "download:file": MageDownload\Command\DownloadCommand
     - "download:info": MageDownload\Command\InfoCommand
+
+autoloaders_psr4:
+  GuzzleHttp\: %module%/vendor/guzzlehttp/guzzle/src
+  GuzzleHttp\Psr7\: %module%/vendor/guzzlehttp/psr7/src
+  GuzzleHttp\Promise\: %module%/vendor/guzzlehttp/promises/src
+  Psr\Http\Message\: %module%/vendor/psr/http-message/src
+
+autoload_files:
+  - %module%/vendor/guzzlehttp/guzzle/src/functions_include.php
+  - %module%/vendor/guzzlehttp/psr7/src/functions_include.php
+  - %module%/vendor/guzzlehttp/promises/src/functions_include.php
