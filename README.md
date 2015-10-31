@@ -30,7 +30,7 @@ php composer.phar install
 
 ## Configuration
 
-The configuration file is in `yaml` format an located at `~/.magedownload-cli.yaml`.
+The configuration file is in `yaml` format and located at `~/.magedownload-cli.yaml`.
 
 Example:
 
