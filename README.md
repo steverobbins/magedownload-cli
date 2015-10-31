@@ -73,6 +73,18 @@ Your Magento account ID.
 
 Your Magento access token.
 
+### `configure`
+
+    $ php magedownload.phar configure
+
+or
+
+    $ php n98-magerun.phar download:configure
+
+Configures your account ID and access token.
+
+Can be used with `--id` and `--token`
+
 ### `file`
 
     $ php magedownload.phar file <name> <destination>
