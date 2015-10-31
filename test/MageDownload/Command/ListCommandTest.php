@@ -29,12 +29,12 @@ class ListCommandTest extends TestCase
      */
     public function testCommand()
     {
-        $app           = $this->getApplication();
-        $command       = $app->find('list');
+        $command       = $this->getApplication()->find('list');
         $commandTester = new CommandTester($command);
         $result        = $commandTester->execute([
             'command' => 'list',
         ]);
         $this->assertEquals(0, $result);
+        $this->assertContains('Available commands', $commandTester->getDisplay());
     }
 }
