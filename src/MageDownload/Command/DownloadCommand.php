@@ -64,14 +64,14 @@ class DownloadCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $destination = $this->getDestination($input);
+        $output->writeln(sprintf('Downloading to <info>%s</info>...', $destination));
         $download = new Download;
         $result = $download->get(
             $input->getArgument('file'),
             $this->getAccountId($input),
             $this->getAccessToken($input)
         );
-        $destination = $this->getDestination($input);
-        $output->writeln(sprintf('Downloading to <info>%s</info>...', $destination));
         $success = file_put_contents($destination, $result);
         if ($success) {
             $output->writeln('Complete');
