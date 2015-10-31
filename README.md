@@ -114,7 +114,6 @@ Available actions:
 
 # To Do
 
-* `configure` command, prompt for id and token and save to config file
 * `--extract` option when downloading, unzip/tar/etc contents after download
 * Add a progress bar while downloading
 
