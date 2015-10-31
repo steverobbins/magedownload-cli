@@ -54,6 +54,13 @@ abstract class AbstractCommand extends Command
             );
     }
 
+    /**
+     * Get the account id specified, or from the config
+     *
+     * @param InputInterface $input
+     *
+     * @return string
+     */
     public function getAccountId(InputInterface $input)
     {
         if ($input->getOption('id')) {
@@ -64,6 +71,13 @@ abstract class AbstractCommand extends Command
         throw new \InvalidArgumentException('You must specify an account id');
     }
 
+    /**
+     * Get the access token specified, or from the config
+     *
+     * @param InputInterface $input
+     *
+     * @return string
+     */
     public function getAccessToken(InputInterface $input)
     {
         if ($input->getOption('token')) {
