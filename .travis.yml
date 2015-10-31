@@ -21,5 +21,6 @@ before_script:
 script:
   - vendor/bin/phpcs --standard=./phpcs.xml -v --encoding=utf-8 ./src
   - vendor/bin/phpunit -c phpunit.xml --debug
-  - php test/check-coverage.php build/log/clover.xml 50
 
+after_script:
+  - php test/check-coverage.php build/log/clover.xml 50
