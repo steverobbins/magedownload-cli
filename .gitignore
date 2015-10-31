@@ -1,3 +1,7 @@
+*.bz2
+*.gz
+*.sh
+*.zip
 /composer.lock
 /magedownload.phar
 /vendor/

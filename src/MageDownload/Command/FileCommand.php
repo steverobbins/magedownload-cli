@@ -20,7 +20,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Download command
+ * Download file command
  *
  * @category  MageDownload
  * @package   MageDownload
@@ -29,7 +29,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @license   http://creativecommons.org/licenses/by/4.0/ CC BY 4.0
  * @link      https://github.com/steverobbins/magedownload-cli
  */
-class DownloadCommand extends AbstractCommand
+class FileCommand extends AbstractCommand
 {
     /**
      * Configure command
@@ -39,12 +39,12 @@ class DownloadCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('download')
+            ->setName('file')
             ->setDescription('Download a release or patch')
             ->addArgument(
-                'file',
+                'name',
                 InputArgument::REQUIRED,
-                'The file to download'
+                'The name of the file to download'
             )
             ->addArgument(
                 'destination',
@@ -68,7 +68,7 @@ class DownloadCommand extends AbstractCommand
         $output->writeln(sprintf('Downloading to <info>%s</info>...', $destination));
         $download = new Download;
         $result = $download->get(
-            $input->getArgument('file'),
+            $input->getArgument('name'),
             $this->getAccountId($input),
             $this->getAccessToken($input)
         );
@@ -91,13 +91,13 @@ class DownloadCommand extends AbstractCommand
     {
         $dest = $input->getArgument('destination');
         if (!$dest) {
-            return getcwd() . DIRECTORY_SEPARATOR . $input->getArgument('file');
+            return getcwd() . DIRECTORY_SEPARATOR . $input->getArgument('name');
         }
         if (is_dir($dest)) {
             if (substr($dest, -1) !== '/') {
                 $dest .= DIRECTORY_SEPARATOR;
             }
-            return $dest . $input->getArgument('file');
+            return $dest . $input->getArgument('name');
         }
         return $dest;
     }
