@@ -2,6 +2,7 @@
 *.gz
 *.sh
 *.zip
+/build/log
 /composer.lock
 /composer.phar
 /magedownload.phar
