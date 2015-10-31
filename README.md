@@ -76,6 +76,11 @@ Available actions:
 * files
 * versions
 
+# To Do
+
+* `configure` command, prompt for id and token and save to config file
+* `--extract` option when downloading, unzip/tar/etc contents after download
+
 # Support
 
 Please [create an issue](https://github.com/steverobbins/magedownload-cli/issues/new) for all bugs and feature requests.
