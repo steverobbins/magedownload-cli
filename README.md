@@ -58,7 +58,6 @@ user:
 
 To generate an access token, login to your account on magento.com and generate it in **Account Settings** -> **Downloads Access Token**.
 
-
 ## Commands
 
 #### Options
@@ -82,8 +81,6 @@ or
     $ php n98-magerun.phar download:configure
 
 Configures your account ID and access token.
-
-Can be used with `--id` and `--token`
 
 ### `file`
 
