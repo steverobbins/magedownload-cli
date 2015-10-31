@@ -14,13 +14,13 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use MageDownload\Command\DownloadCommand;
+use MageDownload\Command\FileCommand;
 use MageDownload\Command\InfoCommand;
 use Symfony\Component\Console\Application;
 
-$app = new Application('Magedownload CLI', '1.0.2');
+$app = new Application('Magedownload CLI', '1.1.0');
 
-$app->add(new DownloadCommand);
+$app->add(new FileCommand);
 $app->add(new InfoCommand);
 
 $app->run();

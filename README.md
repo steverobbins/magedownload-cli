@@ -24,6 +24,20 @@ curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 ```
 
+### n98 magerun
+
+* Clone to your modules directory
+* Install with composer
+
+```
+mkdir -p ~/.n98-magerun/modules
+cd ~/.n98-magerun/modules
+git clone https://github.com/steverobbins/magedownload-cli
+cd magedownload-cli
+curl -sS https://getcomposer.org/installer | php
+php composer.phar install
+```
+
 # Usage
 
     $ php magedownload.phar help
@@ -57,9 +71,13 @@ Your Magento account ID.
 
 Your Magento access token.
 
-### `download`
+### `file`
 
-    $ php magedownload.phar download <file> <destination>
+    $ php magedownload.phar file <name> <destination>
+
+or
+
+    $ php n98-magerun.phar download:file <name> <destination>
 
 Downloads the specified file to the given destination.
 
@@ -68,6 +86,10 @@ If no destination is given, the file is downloaded to current directory.
 ### `info`
 
     $ php magedownload.phar info <action>
+
+or
+
+    $ php n98-magerun.phar download:info <action>
 
 Gets information about what releases and patches can be downloaded.
 
