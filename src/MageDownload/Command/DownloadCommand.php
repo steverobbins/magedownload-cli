@@ -45,6 +45,11 @@ class DownloadCommand extends AbstractCommand
                 'file',
                 InputArgument::REQUIRED,
                 'The file to download'
+            )
+            ->addArgument(
+                'destination',
+                InputArgument::OPTIONAL,
+                'The destination where the file should be downloaded'
             );
         parent::configure();
     }
@@ -60,17 +65,40 @@ class DownloadCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $download = new Download;
-        $file = $input->getArgument('file');
         $result = $download->get(
-            $file,
+            $input->getArgument('file'),
             $this->getAccountId($input),
             $this->getAccessToken($input)
         );
-        $success = file_put_contents(getcwd() . DIRECTORY_SEPARATOR . $file, $result);
+        $destination = $this->getDestination($input);
+        $output->writeln(sprintf('Downloading to <info>%s</info>...', $destination));
+        $success = file_put_contents($destination, $result);
         if ($success) {
-            $output->writeln(sprintf('File saved to <info>%s</info>', $file));
+            $output->writeln('Complete');
         } else {
             $output->writeln('<error>Failed to download file</error>');
         }
+    }
+
+    /**
+     * Determine where the file should download to
+     *
+     * @param InputInterface $input
+     *
+     * @return string
+     */
+    private function getDestination(InputInterface $input)
+    {
+        $dest = $input->getArgument('destination');
+        if (!$dest) {
+            return getcwd() . DIRECTORY_SEPARATOR . $input->getArgument('file');
+        }
+        if (is_dir($dest)) {
+            if (substr($dest, -1) !== '/') {
+                $dest .= DIRECTORY_SEPARATOR;
+            }
+            return $dest . $input->getArgument('file');
+        }
+        return $dest;
     }
 }
