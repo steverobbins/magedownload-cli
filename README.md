@@ -24,7 +24,7 @@ curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 ```
 
-### n98 magerun
+### n98 magerun (>= 1.97.6)
 
 * Clone to your modules directory
 * Install with composer
