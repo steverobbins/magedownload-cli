@@ -75,6 +75,10 @@ Your Magento access token.
 
     $ php magedownload.phar file <name> <destination>
 
+- or -
+
+    $ php n98-magerun.phar download:file <name> <destination>
+
 Downloads the specified file to the given destination.
 
 If no destination is given, the file is downloaded to the directory the command is executed from.
@@ -82,6 +86,10 @@ If no destination is given, the file is downloaded to the directory the command 
 ### `info`
 
     $ php magedownload.phar info <action>
+
+- or -
+
+    $ php n98-magerun.phar download:info <action>
 
 Gets information about what releases and patches can be downloaded.
 
