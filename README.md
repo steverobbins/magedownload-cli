@@ -26,7 +26,7 @@ php composer.phar install
 
 # Usage
 
-    $ magedownload.phar help
+    $ php magedownload.phar help
 
 ## Configuration
 
@@ -59,7 +59,7 @@ Your Magento access token.
 
 ### `download`
 
-    $ magedownload.phar download <file> <destination>
+    $ php magedownload.phar download <file> <destination>
 
 Downloads the specified file to the given destination.
 
@@ -67,7 +67,7 @@ If no destination is given, the file is downloaded to the directory the command 
 
 ### `info`
 
-    $ magedownload.phar info <action>
+    $ php magedownload.phar info <action>
 
 Gets information about what releases and patches can be downloaded.
 
