@@ -22,16 +22,16 @@ use Symfony\Component\Console\Application;
 use PHPUnit_Framework_TestCase;
 
 /**
- * Test execution of the command
+ * Test the help command
  */
-class ExecuteTest extends PHPUnit_Framework_TestCase
+class HelpCommandTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * Test execution
+     * Test the help command
      *
      * @return void
      */
-    public function testExecute()
+    public function testCommand()
     {
         $app = new Application;
         $app->add(new ConfigureCommand);
