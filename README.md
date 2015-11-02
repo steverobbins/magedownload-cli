@@ -6,6 +6,8 @@ MageDownload CLI
 
 A PHP tool to automate Magento release and patch downloads
 
+![Example](http://i.imgur.com/fr2jeut.gif)
+
 # Installation
 
 ### .phar
