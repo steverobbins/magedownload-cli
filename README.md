@@ -10,7 +10,30 @@ A PHP tool to automate Magento release and patch downloads
 
 ### .phar
 
-You can download the latest `.phar` from the [releases](https://github.com/steverobbins/magedownload-cli/releases) section.
+Download the `.phar` with `wget`
+
+```
+wget http://magedownload.steverobbins.com/download/latest/magedownload.phar
+```
+
+Or with `cURL`
+
+```
+curl -O http://magedownload.steverobbins.com/download/latest/magedownload.phar
+```
+
+It's now ready to use: `php magedownload.phar help`
+
+If you want to make it available anywhere on your system
+
+```
+chmod +x magedownload.phar
+mv magedownload.phar /usr/local/bin/magedownload
+```
+
+And can be used: `magedownload info`
+
+[See all releases](http://magedownload.steverobbins.com/download/)
 
 ### Source
 
