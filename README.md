@@ -109,11 +109,11 @@ Configures your account ID and access token.
 
 ### `file`
 
-    $ php magedownload.phar file <name> <destination>
+    $ php magedownload.phar file <name> [<destination>]
 
 or
 
-    $ php n98-magerun.phar download:file <name> <destination>
+    $ php n98-magerun.phar download:file <name> [<destination>]
 
 Downloads the specified file to the given destination.
 

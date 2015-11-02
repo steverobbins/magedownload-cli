@@ -43,13 +43,13 @@ abstract class AbstractCommand extends Command
             ->addOption(
                 'id',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Magento account ID'
             )
             ->addOption(
                 'token',
                 null,
-                InputOption::VALUE_OPTIONAL,
+                InputOption::VALUE_REQUIRED,
                 'Magento access token'
             );
     }
