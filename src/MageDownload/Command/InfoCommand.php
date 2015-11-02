@@ -15,6 +15,7 @@
 namespace MageDownload\Command;
 
 use MageDownload\Info;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -60,12 +61,48 @@ class InfoCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $action = $input->getArgument('action');
         $info = new Info;
         $result = $info->sendCommand(
-            $input->getArgument('action'),
+            $action,
             $this->getAccountId($input),
             $this->getAccessToken($input)
         );
+        switch ($action) {
+            case 'files':
+                return $this->renderFiles($result, $output);
+        }
         $output->write($result, false, OutputInterface::OUTPUT_RAW);
+    }
+
+    /**
+     * Render the files action
+     *
+     * @param string          $result
+     * @param OutputInterface $output
+     *
+     * @return void
+     */
+    protected function renderFiles($result, OutputInterface $output)
+    {
+        $bits = preg_split('/\-{5,}/', $result);
+        $result = $bits[1];
+        $rows = [];
+        foreach (explode("\n", $result) as $row) {
+            if (empty($row)) {
+                continue;
+            }
+            $bits = preg_split('/ {2,}/', $row);
+            $rows[] = [
+                $bits[0],
+                $bits[1],
+                $bits[2],
+            ];
+        }
+        $tableHelper = new Table($output);
+        $tableHelper
+            ->setHeaders(['Description', 'Type', 'Name'])
+            ->setRows($rows)
+            ->render();
     }
 }
