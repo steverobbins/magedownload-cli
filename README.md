@@ -33,7 +33,7 @@ chmod +x magedownload.phar
 mv magedownload.phar /usr/local/bin/magedownload
 ```
 
-And can be used: `magedownload info`
+And can be used: `magedownload help`
 
 [See all releases](http://magedownload.steverobbins.com/download/)
 
@@ -87,7 +87,7 @@ To generate an access token, login to your account on magento.com and generate i
 
 #### Options
 
-All commands have the following options
+All commands have the following options:
 
 ##### `--id=ID` (optional)
 
@@ -96,6 +96,8 @@ Your Magento account ID.
 ##### `--token=TOKEN` (optional)
 
 Your Magento access token.
+
+I supplied, they will be used in place of configured options.
 
 ### `configure`
 
