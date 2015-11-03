@@ -79,7 +79,7 @@ class InfoCommand extends AbstractCommand
     /**
      * Render the files action
      *
-     * @param string          $result
+     * @param string $result
      *
      * @return void
      */
@@ -111,7 +111,7 @@ class InfoCommand extends AbstractCommand
     /**
      * Render the versions action
      *
-     * @param string          $result
+     * @param string $result
      *
      * @return void
      */
@@ -121,7 +121,7 @@ class InfoCommand extends AbstractCommand
         foreach ($editions as $info) {
             $bits = preg_split('/\-{5,}/', $info);
             $versions = explode("\n", trim($bits[1]));
-            array_walk($versions, function(&$value) {
+            array_walk($versions, function (&$value) {
                 $value = [$value];
             });
             $this->out([[

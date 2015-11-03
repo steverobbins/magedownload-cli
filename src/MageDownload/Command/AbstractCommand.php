@@ -49,7 +49,7 @@ abstract class AbstractCommand extends Command
     /**
      * Cached user config
      *
-     * @var array
+     * @var Config
      */
     protected $config;
 
@@ -99,7 +99,7 @@ abstract class AbstractCommand extends Command
     /**
      * Get the account id specified, or from the config
      *
-     * @return string
+     * @return string|boolean
      */
     public function getAccountId()
     {
@@ -114,7 +114,7 @@ abstract class AbstractCommand extends Command
     /**
      * Get the access token specified, or from the config
      *
-     * @return string
+     * @return string|boolean
      */
     public function getAccessToken()
     {
@@ -142,7 +142,6 @@ abstract class AbstractCommand extends Command
     /**
      * Output information in the correct format
      *
-     * @param string       $title
      * @param array|string $messages
      *
      * @return void
@@ -162,7 +161,6 @@ abstract class AbstractCommand extends Command
     /**
      * Output in default format
      *
-     * @param string       $title
      * @param array|string $messages
      *
      * @return void
@@ -190,7 +188,6 @@ abstract class AbstractCommand extends Command
     /**
      * Output in json format
      *
-     * @param string       $title
      * @param array|string $messages
      *
      * @return void

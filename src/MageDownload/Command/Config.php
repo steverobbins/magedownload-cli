@@ -31,9 +31,32 @@ class Config
 {
     const CONFIG_FILE_NAME = 'magedownload-cli.yaml';
 
+    /**
+     * Config cache
+     *
+     * @var array|boolean|null
+     */
     protected $config;
+
+    /**
+     * Is windows cache
+     *
+     * @var boolean
+     */
     protected $isWindows;
+
+    /**
+     * Path to home directory
+     *
+     * @var string
+     */
     protected $homeDirectory;
+
+    /**
+     * Full path to config fule
+     *
+     * @var string
+     */
     protected $configFile;
 
     /**

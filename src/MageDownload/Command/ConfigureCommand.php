@@ -54,18 +54,18 @@ class ConfigureCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         try {
-            $currentId = $this->getAccountId($input);
+            $currentId = $this->getAccountId();
         } catch (\InvalidArgumentException $e) {
             // Ignore this exception
             $currentId = false;
         }
         try {
-            $currentToken = $this->getAccessToken($input);
+            $currentToken = $this->getAccessToken();
         } catch (\InvalidArgumentException $e) {
             // Ignore this exception
             $currentToken = false;
         }
-        if ($input->getOption('id')) {
+        if ($this->input->getOption('id')) {
             $newId = $this->input->getOption('id');
         } else {
             $newId = $this->promptFor('account id', $currentId);
@@ -92,8 +92,8 @@ class ConfigureCommand extends AbstractCommand
     /**
      * Get the new value for config option
      *
-     * @param string          $name
-     * @param string|boolean  $currentValue
+     * @param string         $name
+     * @param string|boolean $currentValue
      *
      * @return string
      */
@@ -107,7 +107,7 @@ class ConfigureCommand extends AbstractCommand
         );
         if (!$newValue) {
             $this->output->writeln('<error>Value cannot be empty</error>');
-            return $this->promptFor($name, $currentValue, $this->output);
+            return $this->promptFor($name, $currentValue);
         }
         return $newValue;
     }
