@@ -15,8 +15,10 @@
 namespace MageDownload\Command;
 
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
  * Abstract scan command
@@ -30,6 +32,25 @@ use Symfony\Component\Console\Input\InputOption;
  */
 abstract class AbstractCommand extends Command
 {
+    /**
+     * Input object
+     *
+     * @var \Symfony\Component\Console\Input\InputInterface
+     */
+    protected $input;
+
+    /**
+     * Output object
+     *
+     * @var \Symfony\Component\Console\Output\OutputInterface
+     */
+    protected $output;
+
+    /**
+     * Cached user config
+     *
+     * @var array
+     */
     protected $config;
 
     /**
@@ -51,20 +72,39 @@ abstract class AbstractCommand extends Command
                 null,
                 InputOption::VALUE_REQUIRED,
                 'Magento access token'
+            )
+            ->addOption(
+                'format',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Specify output format (default, json)',
+                'default'
             );
+    }
+
+    /**
+     * Initialize command
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return void
+     */
+    protected function initialize(InputInterface $input, OutputInterface $output)
+    {
+        $this->input = $input;
+        $this->output = $output;
     }
 
     /**
      * Get the account id specified, or from the config
      *
-     * @param InputInterface $input
-     *
      * @return string
      */
-    public function getAccountId(InputInterface $input)
+    public function getAccountId()
     {
-        if ($input->getOption('id')) {
-            return $input->getOption('id');
+        if ($this->input->getOption('id')) {
+            return $this->input->getOption('id');
         } elseif ($this->getConfig()->getAccountId()) {
             return $this->getConfig()->getAccountId();
         }
@@ -74,14 +114,12 @@ abstract class AbstractCommand extends Command
     /**
      * Get the access token specified, or from the config
      *
-     * @param InputInterface $input
-     *
      * @return string
      */
-    public function getAccessToken(InputInterface $input)
+    public function getAccessToken()
     {
-        if ($input->getOption('token')) {
-            return $input->getOption('token');
+        if ($this->input->getOption('token')) {
+            return $this->input->getOption('token');
         } elseif ($this->getConfig()->getAccessToken()) {
             return $this->getConfig()->getAccessToken();
         }
@@ -99,5 +137,88 @@ abstract class AbstractCommand extends Command
             $this->config = new Config;
         }
         return $this->config;
+    }
+
+    /**
+     * Output information in the correct format
+     *
+     * @param string       $title
+     * @param array|string $messages
+     *
+     * @return void
+     */
+    protected function out($messages = [])
+    {
+        $format = $this->input->getOption('format');
+        $method = 'outputFormat' . ucfirst($format);
+        if (!method_exists($this, $method)) {
+            throw new \InvalidArgumentException(
+                'Format "' . $format . '" is not supported'
+            );
+        }
+        $this->$method($messages);
+    }
+
+    /**
+     * Output in default format
+     *
+     * @param string       $title
+     * @param array|string $messages
+     *
+     * @return void
+     */
+    protected function outputFormatDefault($messages)
+    {
+        if (!is_array($messages)) {
+            return $this->output->writeln($messages);
+        }
+        foreach ($messages as $message) {
+            switch (isset($message['type']) ? $message['type'] : false) {
+                case 'table':
+                    $tableHelper = new Table($this->output);
+                    $tableHelper
+                        ->setHeaders($message['data'][0])
+                        ->setRows($message['data'][1])
+                        ->render();
+                    break;
+                default:
+                    $this->output->writeln(is_array($message) ? $message['data'] : $message);
+            }
+        }
+    }
+
+    /**
+     * Output in json format
+     *
+     * @param string       $title
+     * @param array|string $messages
+     *
+     * @return void
+     */
+    protected function outputFormatJson($messages)
+    {
+        $json = [];
+        if (!is_array($messages)) {
+            $json[] = strip_tags($messages);
+        } else {
+            foreach ($messages as $message) {
+                switch (isset($message['type']) ? $message['type'] : false) {
+                    case 'table':
+                        $result = [];
+                        $headers = $message['data'][0];
+                        array_map('strtolower', $headers);
+                        foreach ($message['data'][1] as $row) {
+                            foreach ($headers as $key => $name) {
+                                $result[$name] = strip_tags($row[$key]);
+                            }
+                            $json[] = $result;
+                        }
+                        break;
+                    default:
+                        $json[] = strip_tags(is_array($message) ? $message['data'] : $message);
+                }
+            }
+        }
+        echo json_encode($json);
     }
 }

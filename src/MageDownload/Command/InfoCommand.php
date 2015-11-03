@@ -15,7 +15,6 @@
 namespace MageDownload\Command;
 
 use MageDownload\Info;
-use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -61,29 +60,30 @@ class InfoCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $action = $input->getArgument('action');
+        $action = $this->input->getArgument('action');
         $info = new Info;
         $result = $info->sendCommand(
             $action,
-            $this->getAccountId($input),
-            $this->getAccessToken($input)
+            $this->getAccountId(),
+            $this->getAccessToken()
         );
         switch ($action) {
             case 'files':
-                return $this->renderFiles($result, $output);
+                return $this->renderFiles($result);
+            case 'versions':
+                return $this->renderVersions($result);
         }
-        $output->write($result, false, OutputInterface::OUTPUT_RAW);
+        $this->out($result);
     }
 
     /**
      * Render the files action
      *
      * @param string          $result
-     * @param OutputInterface $output
      *
      * @return void
      */
-    protected function renderFiles($result, OutputInterface $output)
+    protected function renderFiles($result)
     {
         $bits = preg_split('/\-{5,}/', $result);
         $result = $bits[1];
@@ -99,10 +99,38 @@ class InfoCommand extends AbstractCommand
                 $bits[2],
             ];
         }
-        $tableHelper = new Table($output);
-        $tableHelper
-            ->setHeaders(['Description', 'Type', 'Name'])
-            ->setRows($rows)
-            ->render();
+        $this->out([[
+            'type' => 'table',
+            'data' => [
+                ['Description', 'Type', 'Name'],
+                $rows
+            ]
+        ]]);
+    }
+
+    /**
+     * Render the versions action
+     *
+     * @param string          $result
+     *
+     * @return void
+     */
+    protected function renderVersions($result)
+    {
+        $editions = preg_split('/\n{2}/', $result);
+        foreach ($editions as $info) {
+            $bits = preg_split('/\-{5,}/', $info);
+            $versions = explode("\n", trim($bits[1]));
+            array_walk($versions, function(&$value) {
+                $value = [$value];
+            });
+            $this->out([[
+                'type' => 'table',
+                'data' => [
+                    [trim($bits[0])],
+                    $versions
+                ]
+            ]]);
+        }
     }
 }

@@ -66,14 +66,14 @@ class ConfigureCommand extends AbstractCommand
             $currentToken = false;
         }
         if ($input->getOption('id')) {
-            $newId = $input->getOption('id');
+            $newId = $this->input->getOption('id');
         } else {
-            $newId = $this->promptFor('account id', $currentId, $output);
+            $newId = $this->promptFor('account id', $currentId);
         }
-        if ($input->getOption('token')) {
-            $newToken = $input->getOption('token');
+        if ($this->input->getOption('token')) {
+            $newToken = $this->input->getOption('token');
         } else {
-            $newToken = $this->promptFor('access token', $currentToken, $output);
+            $newToken = $this->promptFor('access token', $currentToken);
         }
         $config = new Config;
         $success = $config->saveConfig([
@@ -83,9 +83,9 @@ class ConfigureCommand extends AbstractCommand
             ]
         ]);
         if ($success) {
-            $output->writeln('<info>Configuration successfully updated</info>');
+            $this->out('<info>Configuration successfully updated</info>');
         } else {
-            $output->writeln('<error>Failed to update configuration</error>');
+            $this->out('<error>Failed to update configuration</error>');
         }
     }
 
@@ -94,21 +94,20 @@ class ConfigureCommand extends AbstractCommand
      *
      * @param string          $name
      * @param string|boolean  $currentValue
-     * @param OutputInterface $output
      *
      * @return string
      */
-    protected function promptFor($name, $currentValue, OutputInterface $output)
+    protected function promptFor($name, $currentValue)
     {
         $dialog   = $this->getHelper('dialog');
         $newValue = $dialog->ask(
-            $output,
+            $this->output,
             sprintf('Please enter the %s%s: ', $name, $currentValue ? sprintf(' (%s)', $currentValue) : ''),
             $currentValue
         );
         if (!$newValue) {
-            $output->writeln('<error>Value cannot be empty</error>');
-            return $this->promptFor($name, $currentValue, $output);
+            $this->output->writeln('<error>Value cannot be empty</error>');
+            return $this->promptFor($name, $currentValue, $this->output);
         }
         return $newValue;
     }

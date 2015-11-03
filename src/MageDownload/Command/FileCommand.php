@@ -64,40 +64,38 @@ class FileCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $destination = $this->getDestination($input);
-        $output->writeln(sprintf('Downloading to <info>%s</info>...', $destination));
+        $destination = $this->getDestination();
+        $this->output->writeln(sprintf('Downloading to <info>%s</info>...', $destination));
         $download = new Download;
         $result = $download->get(
-            $input->getArgument('name'),
-            $this->getAccountId($input),
-            $this->getAccessToken($input)
+            $this->input->getArgument('name'),
+            $this->getAccountId(),
+            $this->getAccessToken()
         );
         $success = file_put_contents($destination, $result);
         if ($success) {
-            $output->writeln('Complete');
+            $this->output->writeln('Complete');
         } else {
-            $output->writeln('<error>Failed to download file</error>');
+            $this->output->writeln('<error>Failed to download file</error>');
         }
     }
 
     /**
      * Determine where the file should download to
      *
-     * @param InputInterface $input
-     *
      * @return string
      */
-    private function getDestination(InputInterface $input)
+    private function getDestination()
     {
-        $dest = $input->getArgument('destination');
+        $dest = $this->input->getArgument('destination');
         if (!$dest) {
-            return getcwd() . DIRECTORY_SEPARATOR . $input->getArgument('name');
+            return getcwd() . DIRECTORY_SEPARATOR . $this->input->getArgument('name');
         }
         if (is_dir($dest)) {
             if (substr($dest, -1) !== '/') {
                 $dest .= DIRECTORY_SEPARATOR;
             }
-            return $dest . $input->getArgument('name');
+            return $dest . $this->input->getArgument('name');
         }
         return $dest;
     }
