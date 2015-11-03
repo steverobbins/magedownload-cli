@@ -19,7 +19,7 @@ use MageDownload\Command\FileCommand;
 use MageDownload\Command\InfoCommand;
 use Symfony\Component\Console\Application;
 
-$app = new Application('Magedownload CLI', '1.2.1');
+$app = new Application('Magedownload CLI', '1.2.2');
 
 $app->add(new ConfigureCommand);
 $app->add(new FileCommand);
