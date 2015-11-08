@@ -17,6 +17,7 @@ namespace MageDownload\Command;
 use MageDownload\Info;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
@@ -46,6 +47,18 @@ class InfoCommand extends AbstractCommand
                 InputArgument::OPTIONAL,
                 'Info command',
                 'help'
+            )
+            ->addOption(
+                'filter-version',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Version to filter by (1.9.2.1, 1.9.*, etc)'
+            )
+            ->addOption(
+                'filter-type',
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Type to filter by (ce-full, ee-full, ce-patch, ee-patch, other)'
             );
         parent::configure();
     }
@@ -63,17 +76,45 @@ class InfoCommand extends AbstractCommand
         $action = $this->input->getArgument('action');
         $info = new Info;
         $result = $info->sendCommand(
-            $action,
+            $action . $this->getFilters(),
             $this->getAccountId(),
             $this->getAccessToken()
         );
         switch ($action) {
             case 'files':
+            case 'filter':
                 return $this->renderFiles($result);
             case 'versions':
                 return $this->renderVersions($result);
         }
         $this->out($result);
+    }
+
+    /**
+     * Get any applied filters
+     *
+     * @return string
+     */
+    protected function getFilters()
+    {
+        if ($this->input->getArgument('action') !== 'filter') {
+            return;
+        }
+        $filters = [];
+        if ($this->input->getOption('filter-version')) {
+            $filters['version'] = $this->input->getOption('filter-version');
+        }
+        if ($this->input->getOption('filter-type')) {
+            $filters['type'] = $this->input->getOption('filter-type');
+        }
+        if (!count($filters)) {
+            return;
+        }
+        $result = '/';
+        foreach ($filters as $type => $value) {
+            $result .= $type . '/' . $value;
+        }
+        return $result;
     }
 
     /**
@@ -86,23 +127,21 @@ class InfoCommand extends AbstractCommand
     protected function renderFiles($result)
     {
         $bits = preg_split('/\-{5,}/', $result);
-        $result = $bits[1];
+        $headers = [];
+        foreach (preg_split('/ {2,}/', $bits[0]) as $value) {
+            $headers[] = trim($value);
+        }
         $rows = [];
-        foreach (explode("\n", $result) as $row) {
+        foreach (explode("\n", $bits[1]) as $row) {
             if (empty($row)) {
                 continue;
             }
-            $bits = preg_split('/ {2,}/', $row);
-            $rows[] = [
-                $bits[0],
-                $bits[1],
-                $bits[2],
-            ];
+            $rows[] = preg_split('/ {2,}/', $row);
         }
         $this->out([[
             'type' => 'table',
             'data' => [
-                ['Description', 'Type', 'Name'],
+                $headers,
                 $rows
             ]
         ]]);
