@@ -20,7 +20,7 @@ use Symfony\Component\Console\Tester\CommandTester;
 /**
  * Test the info command
  */
-class ConfigureCommandTest extends TestCase
+class InfoCommandTest extends TestCase
 {
     /**
      * Test the files action
