@@ -94,7 +94,6 @@ class InfoCommand extends AbstractCommand
             }
             $bits = preg_split('/ {2,}/', $row);
             $rows[] = [
-                $bits[0],
                 $bits[1],
                 $bits[2],
             ];
@@ -102,7 +101,7 @@ class InfoCommand extends AbstractCommand
         $this->out([[
             'type' => 'table',
             'data' => [
-                ['Description', 'Type', 'Name'],
+                ['Type', 'Name'],
                 $rows
             ]
         ]]);
