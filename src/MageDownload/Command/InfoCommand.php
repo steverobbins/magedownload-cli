@@ -44,21 +44,20 @@ class InfoCommand extends AbstractCommand
             ->setDescription('Get information about downloads')
             ->addArgument(
                 'action',
-                InputArgument::OPTIONAL,
-                'Info command',
-                'help'
+                InputArgument::REQUIRED,
+                'The action ("files" or "version")'
             )
             ->addOption(
                 'filter-version',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Version to filter by (1.9.2.1, 1.9.*, etc)'
+                '"files" action only: Version to filter by (1.9.2.1, 1.9.*, etc)'
             )
             ->addOption(
                 'filter-type',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Type to filter by (ce-full, ee-full, ce-patch, ee-patch, other)'
+                '"files" action only: Type to filter by (ce-full, ee-full, ce-patch, ee-patch, other)'
             );
         parent::configure();
     }
@@ -73,10 +72,14 @@ class InfoCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $action = $this->input->getArgument('action');
-        $info = new Info;
+        $action  = $this->input->getArgument('action');
+        $filters = $this->getFilters();
+        if ($filters) {
+            $action = 'filter';
+        }
+        $info    = new Info;
         $result = $info->sendCommand(
-            $action . $this->getFilters(),
+            $action . $filters,
             $this->getAccountId(),
             $this->getAccessToken()
         );
@@ -97,7 +100,7 @@ class InfoCommand extends AbstractCommand
      */
     protected function getFilters()
     {
-        if ($this->input->getArgument('action') !== 'filter') {
+        if ($this->input->getArgument('action') !== 'files') {
             return;
         }
         $filters = [];
@@ -127,16 +130,22 @@ class InfoCommand extends AbstractCommand
     protected function renderFiles($result)
     {
         $bits = preg_split('/\-{5,}/', $result);
+        if (count($bits) == 1) {
+            return $this->out(trim($result));
+        }
         $headers = [];
         foreach (preg_split('/ {2,}/', $bits[0]) as $value) {
             $headers[] = trim($value);
         }
+        unset($headers[0]);
         $rows = [];
         foreach (explode("\n", $bits[1]) as $row) {
             if (empty($row)) {
                 continue;
             }
-            $rows[] = preg_split('/ {2,}/', $row);
+            $row = preg_split('/ {2,}/', $row);
+            unset($row[0]);
+            $rows[] = $row;
         }
         $this->out([[
             'type' => 'table',

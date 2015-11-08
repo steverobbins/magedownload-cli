@@ -136,6 +136,14 @@ Available actions:
 * files
 * versions
 
+When using the `files` action, you may use either `--filter-version` or `--filter-type` options.  Examples:
+
+* `php magedownload.phar info files --filter-version="1.9.2.2"`
+* `php magedownload.phar info files --filter-version="1.9.*"`
+* `php magedownload.phar info files --filter-type="ce-full"`
+
+_* Due to limitiations with the API, only one filter may be used at a time._
+
 # To Do
 
 * `--extract` option when downloading, unzip/tar/etc contents after download
