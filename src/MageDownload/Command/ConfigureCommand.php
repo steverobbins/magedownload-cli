@@ -79,12 +79,12 @@ class ConfigureCommand extends AbstractCommand
             $newToken = $this->promptFor('access token', $currentToken);
         }
         $config = new Config;
-        $success = $config->saveConfig([
-            'user' => [
+        $success = $config->saveConfig(array(
+            'user' => array(
                 'id'    => $newId,
                 'token' => $newToken,
-            ]
-        ]);
+            )
+        ));
         if ($success) {
             $this->out('<info>Configuration successfully updated</info>');
         } else {

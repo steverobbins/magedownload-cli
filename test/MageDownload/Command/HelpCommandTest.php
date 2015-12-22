@@ -31,9 +31,9 @@ class HelpCommandTest extends TestCase
     {
         $command       = $this->getApplication()->find('help');
         $commandTester = new CommandTester($command);
-        $result        = $commandTester->execute([
+        $result        = $commandTester->execute(array(
             'command' => 'help',
-        ]);
+        ));
         $this->assertEquals(0, $result);
         $this->assertContains('The help command displays help for a given command', $commandTester->getDisplay());
     }

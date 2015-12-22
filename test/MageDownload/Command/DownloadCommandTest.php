@@ -32,13 +32,13 @@ class DownloadCommandTest extends TestCase
     {
         $command       = $this->getApplication()->find(DownloadCommand::NAME);
         $commandTester = new CommandTester($command);
-        $result        = $commandTester->execute([
+        $result        = $commandTester->execute(array(
             'command'                             => DownloadCommand::NAME,
             DownloadCommand::ARGUMENT_NAME        => 'PATCH_SUPEE-6788_CE_1.9.2.1_v1.sh',
             DownloadCommand::ARGUMENT_DESTINATION => '/tmp/patch.sh',
             '--id'                                => $this->getAccountId(),
             '--token'                             => $this->getAccessToken(),
-        ]);
+        ));
         $this->assertEquals(0, $result);
         $this->assertContains('Complete', $commandTester->getDisplay());
         $this->assertFileExists('/tmp/patch.sh');
@@ -53,14 +53,14 @@ class DownloadCommandTest extends TestCase
     {
         $command       = $this->getApplication()->find(DownloadCommand::NAME);
         $commandTester = new CommandTester($command);
-        $result        = $commandTester->execute([
+        $result        = $commandTester->execute(array(
             'command'                              => DownloadCommand::NAME,
             DownloadCommand::ARGUMENT_NAME         => 'magento-1.9.0.0.zip',
             DownloadCommand::ARGUMENT_DESTINATION  => '/tmp/magento-zip.zip',
             '--id'                                 => $this->getAccountId(),
             '--token'                              => $this->getAccessToken(),
             '--' . DownloadCommand::OPTION_EXTRACT => true,
-        ]);
+        ));
         $this->assertEquals(0, $result);
         $this->assertContains('Complete', $commandTester->getDisplay());
         $this->assertFileExists('/tmp/magento-zip/index.php');
@@ -75,14 +75,14 @@ class DownloadCommandTest extends TestCase
     {
         $command       = $this->getApplication()->find(DownloadCommand::NAME);
         $commandTester = new CommandTester($command);
-        $result        = $commandTester->execute([
+        $result        = $commandTester->execute(array(
             'command'                              => DownloadCommand::NAME,
             DownloadCommand::ARGUMENT_NAME         => 'magento-1.9.0.0.tar.gz',
             DownloadCommand::ARGUMENT_DESTINATION  => '/tmp/magento-targz.tar.gz',
             '--id'                                 => $this->getAccountId(),
             '--token'                              => $this->getAccessToken(),
             '--' . DownloadCommand::OPTION_EXTRACT => true,
-        ]);
+        ));
         $this->assertEquals(0, $result);
         $this->assertContains('Complete', $commandTester->getDisplay());
         $this->assertFileExists('/tmp/magento-targz/index.php');
@@ -97,14 +97,14 @@ class DownloadCommandTest extends TestCase
     {
         $command       = $this->getApplication()->find(DownloadCommand::NAME);
         $commandTester = new CommandTester($command);
-        $result        = $commandTester->execute([
+        $result        = $commandTester->execute(array(
             'command'                              => DownloadCommand::NAME,
             DownloadCommand::ARGUMENT_NAME         => 'magento-1.9.0.0.tar.bz2',
             DownloadCommand::ARGUMENT_DESTINATION  => '/tmp/magento-tarbz2.tar.bz2',
             '--id'                                 => $this->getAccountId(),
             '--token'                              => $this->getAccessToken(),
             '--' . DownloadCommand::OPTION_EXTRACT => true,
-        ]);
+        ));
         $this->assertEquals(0, $result);
         $this->assertContains('Complete', $commandTester->getDisplay());
         $this->assertFileExists('/tmp/magento-tarbz2/index.php');

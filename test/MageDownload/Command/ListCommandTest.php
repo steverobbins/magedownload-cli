@@ -31,9 +31,9 @@ class ListCommandTest extends TestCase
     {
         $command       = $this->getApplication()->find('list');
         $commandTester = new CommandTester($command);
-        $result        = $commandTester->execute([
+        $result        = $commandTester->execute(array(
             'command' => 'list',
-        ]);
+        ));
         $this->assertEquals(0, $result);
         $this->assertContains('Available commands', $commandTester->getDisplay());
     }

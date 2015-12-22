@@ -147,7 +147,7 @@ abstract class AbstractCommand extends Command
      *
      * @return void
      */
-    protected function out($messages = [])
+    protected function out($messages = array())
     {
         $format = $this->input->getOption('format');
         $method = 'outputFormat' . ucfirst($format);
@@ -195,14 +195,14 @@ abstract class AbstractCommand extends Command
      */
     protected function outputFormatJson($messages)
     {
-        $json = [];
+        $json = array();
         if (!is_array($messages)) {
             $json[] = strip_tags($messages);
         } else {
             foreach ($messages as $message) {
                 switch (isset($message['type']) ? $message['type'] : false) {
                     case 'table':
-                        $result = [];
+                        $result = array();
                         $headers = $message['data'][0];
                         array_map('strtolower', $headers);
                         foreach ($message['data'][1] as $row) {

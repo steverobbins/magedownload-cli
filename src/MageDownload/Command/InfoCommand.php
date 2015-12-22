@@ -110,7 +110,7 @@ class InfoCommand extends AbstractCommand
         if ($this->input->getArgument(self::ARGUMENT_ACTION) !== 'files') {
             return;
         }
-        $filters = [];
+        $filters = array();
         if ($this->input->getOption(self::OPTION_FILTER_VERSION)) {
             $filters['version'] = $this->input->getOption(self::OPTION_FILTER_VERSION);
         }
@@ -140,12 +140,12 @@ class InfoCommand extends AbstractCommand
         if (count($bits) == 1) {
             return $this->out(trim($result));
         }
-        $headers = [];
+        $headers = array();
         foreach (preg_split('/ {2,}/', $bits[0]) as $value) {
             $headers[] = trim($value);
         }
         unset($headers[0]);
-        $rows = [];
+        $rows = array();
         foreach (explode("\n", $bits[1]) as $row) {
             if (empty($row)) {
                 continue;
@@ -154,14 +154,14 @@ class InfoCommand extends AbstractCommand
             unset($row[0]);
             $rows[] = $row;
         }
-        usort($rows, [$this, 'sortFiles']);
-        $this->out([[
+        usort($rows, array($this, 'sortFiles'));
+        $this->out(array(array(
             'type' => 'table',
-            'data' => [
+            'data' => array(
                 $headers,
                 $rows
-            ]
-        ]]);
+            )
+        )));
     }
 
     /**
@@ -192,15 +192,15 @@ class InfoCommand extends AbstractCommand
             $versions = explode("\n", trim($bits[1]));
             usort($versions, 'version_compare');
             array_walk($versions, function (&$value) {
-                $value = [$value];
+                $value = array($value);
             });
-            $this->out([[
+            $this->out(array(array(
                 'type' => 'table',
-                'data' => [
-                    [trim($bits[0])],
+                'data' => array(
+                    array(trim($bits[0])),
                     $versions
-                ]
-            ]]);
+                )
+            )));
         }
     }
 }

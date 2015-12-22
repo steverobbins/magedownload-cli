@@ -32,12 +32,12 @@ class InfoCommandTest extends TestCase
     {
         $command       = $this->getApplication()->find(InfoCommand::NAME);
         $commandTester = new CommandTester($command);
-        $result        = $commandTester->execute([
+        $result        = $commandTester->execute(array(
             'command'                    => InfoCommand::NAME,
             InfoCommand::ARGUMENT_ACTION => 'files',
             '--id'                       => $this->getAccountId(),
             '--token'                    => $this->getAccessToken(),
-        ]);
+        ));
         $this->assertEquals(0, $result);
         $this->assertContains('File Name', $commandTester->getDisplay());
     }
@@ -51,12 +51,12 @@ class InfoCommandTest extends TestCase
     {
         $command       = $this->getApplication()->find(InfoCommand::NAME);
         $commandTester = new CommandTester($command);
-        $result        = $commandTester->execute([
+        $result        = $commandTester->execute(array(
             'command'                    => InfoCommand::NAME,
             InfoCommand::ARGUMENT_ACTION => 'versions',
             '--id'                       => $this->getAccountId(),
             '--token'                    => $this->getAccessToken(),
-        ]);
+        ));
         $this->assertEquals(0, $result);
         $this->assertContains('CE Versions', $commandTester->getDisplay());
         $this->assertContains('EE Versions', $commandTester->getDisplay());

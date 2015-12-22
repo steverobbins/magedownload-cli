@@ -32,11 +32,11 @@ class ConfigureCommandTest extends TestCase
     {
         $command       = $this->getApplication()->find(ConfigureCommand::NAME);
         $commandTester = new CommandTester($command);
-        $result        = $commandTester->execute([
+        $result        = $commandTester->execute(array(
             'command' => ConfigureCommand::NAME,
             '--id'    => $this->getAccountId(),
             '--token' => $this->getAccessToken(),
-        ]);
+        ));
         $this->assertEquals(0, $result);
         $this->assertContains('Configuration successfully updated', $commandTester->getDisplay());
     }
