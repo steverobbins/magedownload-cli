@@ -174,11 +174,7 @@ class InfoCommand extends AbstractCommand
      */
     protected function sortFiles($a, $b)
     {
-        if ($result = strcmp($a[1], $b[1])) {
-            return $result;
-        } else {
-            return strcmp($a[2], $a[2]);
-        }
+        return strcmp($a[1], $b[1]) ?: strcmp($a[2], $a[2]);
     }
 
     /**
