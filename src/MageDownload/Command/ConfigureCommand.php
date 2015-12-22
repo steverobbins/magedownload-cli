@@ -14,6 +14,7 @@
 
 namespace MageDownload\Command;
 
+use MageDownload\Config;
 use MageDownload\Download;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -30,6 +31,8 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class ConfigureCommand extends AbstractCommand
 {
+    const NAME = 'configure';
+
     /**
      * Configure command
      *
@@ -38,7 +41,7 @@ class ConfigureCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('configure')
+            ->setName(self::NAME)
             ->setDescription('Configure your account ID and access token');
         parent::configure();
     }
@@ -78,7 +81,7 @@ class ConfigureCommand extends AbstractCommand
         $config = new Config;
         $success = $config->saveConfig([
             'user' => [
-                'id' => $newId,
+                'id'    => $newId,
                 'token' => $newToken,
             ]
         ]);

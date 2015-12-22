@@ -16,7 +16,6 @@
             "exclude": ["test", "Test", "Tests", "tests"],
             "in": [
                 "vendor/composer",
-                "vendor/guzzlehttp",
                 "vendor/psr",
                 "vendor/steverobbins",
                 "vendor/symfony"

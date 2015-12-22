@@ -15,10 +15,11 @@
 namespace MageDownload\Command\PHPUnit;
 
 use MageDownload\Command\ConfigureCommand;
-use MageDownload\Command\FileCommand;
+use MageDownload\Command\DownloadCommand;
 use MageDownload\Command\InfoCommand;
-use Symfony\Component\Console\Application;
+use MageDownload\Config;
 use PHPUnit_Framework_TestCase;
+use Symfony\Component\Console\Application;
 
 /**
  * Project test case
@@ -33,6 +34,13 @@ use PHPUnit_Framework_TestCase;
 class TestCase extends PHPUnit_Framework_TestCase
 {
     /**
+     * Cached user config
+     *
+     * @var Config
+     */
+    protected $config;
+
+    /**
      * Set up the application
      *
      * @return Application
@@ -41,8 +49,51 @@ class TestCase extends PHPUnit_Framework_TestCase
     {
         $app = new Application;
         $app->add(new ConfigureCommand);
-        $app->add(new FileCommand);
+        $app->add(new DownloadCommand);
         $app->add(new InfoCommand);
         return $app;
+    }
+
+    /**
+     * Get the user's config
+     *
+     * @return Config
+     */
+    public function getConfig()
+    {
+        if ($this->config === null) {
+            $this->config = new Config;
+        }
+        return $this->config;
+    }
+
+    /**
+     * Get Magento account id
+     *
+     * @return string
+     */
+    public function getAccountId()
+    {
+        if (isset($_SERVER['MAGENTO_ID'])) {
+            return $_SERVER['MAGENTO_ID'];
+        } elseif ($id = $this->getConfig()->getAccountId()) {
+            return $id;
+        }
+        return '';
+    }
+
+    /**
+     * Get Magento access token
+     *
+     * @return string
+     */
+    public function getAccessToken()
+    {
+        if (isset($_SERVER['MAGENTO_TOKEN'])) {
+            return $_SERVER['MAGENTO_TOKEN'];
+        } elseif ($token = $this->getConfig()->getAccessToken()) {
+            return $token;
+        }
+        return '';
     }
 }

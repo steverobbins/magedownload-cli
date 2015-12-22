@@ -14,6 +14,7 @@
 
 namespace MageDownload\Command;
 
+use MageDownload\Config;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputInterface;
@@ -108,7 +109,7 @@ abstract class AbstractCommand extends Command
         } elseif ($this->getConfig()->getAccountId()) {
             return $this->getConfig()->getAccountId();
         }
-        throw new \InvalidArgumentException('You must specify an account id');
+        throw new \InvalidArgumentException('You must specify or configure an account id');
     }
 
     /**
@@ -123,7 +124,7 @@ abstract class AbstractCommand extends Command
         } elseif ($this->getConfig()->getAccessToken()) {
             return $this->getConfig()->getAccessToken();
         }
-        throw new \InvalidArgumentException('You must specify an access token');
+        throw new \InvalidArgumentException('You must specify or configure an access token');
     }
 
     /**

@@ -32,6 +32,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 class InfoCommand extends AbstractCommand
 {
+    const NAME = 'info';
+
+    const ARGUMENT_ACTION = 'action';
+
+    const OPTION_FILTER_VERSION = 'filter-version';
+    const OPTION_FILTER_TYPE    = 'filter-type';
+
     /**
      * Configure command
      *
@@ -40,21 +47,21 @@ class InfoCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('info')
+            ->setName(self::NAME)
             ->setDescription('Get information about downloads')
             ->addArgument(
-                'action',
+                self::ARGUMENT_ACTION,
                 InputArgument::REQUIRED,
-                'The action ("files" or "version")'
+                'The action ("files" or "versions")'
             )
             ->addOption(
-                'filter-version',
+                self::OPTION_FILTER_VERSION,
                 null,
                 InputOption::VALUE_REQUIRED,
                 '"files" action only: Version to filter by (1.9.2.1, 1.9.*, etc)'
             )
             ->addOption(
-                'filter-type',
+                self::OPTION_FILTER_TYPE,
                 null,
                 InputOption::VALUE_REQUIRED,
                 '"files" action only: Type to filter by (ce-full, ee-full, ce-patch, ee-patch, other)'
@@ -72,7 +79,7 @@ class InfoCommand extends AbstractCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $action  = $this->input->getArgument('action');
+        $action  = $this->input->getArgument(self::ARGUMENT_ACTION);
         $filters = $this->getFilters();
         if ($filters) {
             $action = 'filter';
@@ -100,15 +107,15 @@ class InfoCommand extends AbstractCommand
      */
     protected function getFilters()
     {
-        if ($this->input->getArgument('action') !== 'files') {
+        if ($this->input->getArgument(self::ARGUMENT_ACTION) !== 'files') {
             return;
         }
         $filters = [];
-        if ($this->input->getOption('filter-version')) {
-            $filters['version'] = $this->input->getOption('filter-version');
+        if ($this->input->getOption(self::OPTION_FILTER_VERSION)) {
+            $filters['version'] = $this->input->getOption(self::OPTION_FILTER_VERSION);
         }
-        if ($this->input->getOption('filter-type')) {
-            $filters['type'] = $this->input->getOption('filter-type');
+        if ($this->input->getOption(self::OPTION_FILTER_TYPE)) {
+            $filters['type'] = $this->input->getOption(self::OPTION_FILTER_TYPE);
         }
         if (!count($filters)) {
             return;
@@ -147,6 +154,7 @@ class InfoCommand extends AbstractCommand
             unset($row[0]);
             $rows[] = $row;
         }
+        usort($rows, [$this, 'sortFiles']);
         $this->out([[
             'type' => 'table',
             'data' => [
@@ -154,6 +162,23 @@ class InfoCommand extends AbstractCommand
                 $rows
             ]
         ]]);
+    }
+
+    /**
+     * Sort files by type and name
+     *
+     * @param string[] $a
+     * @param string[] $b
+     *
+     * @return integer
+     */
+    protected function sortFiles($a, $b)
+    {
+        if ($result = strcmp($a[1], $b[1])) {
+            return $result;
+        } else {
+            return strcmp($a[2], $a[2]);
+        }
     }
 
     /**
@@ -169,6 +194,7 @@ class InfoCommand extends AbstractCommand
         foreach ($editions as $info) {
             $bits = preg_split('/\-{5,}/', $info);
             $versions = explode("\n", trim($bits[1]));
+            usort($versions, 'version_compare');
             array_walk($versions, function (&$value) {
                 $value = [$value];
             });

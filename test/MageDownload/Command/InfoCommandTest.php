@@ -14,6 +14,7 @@
 
 namespace MageDownload\Test\Command;
 
+use MageDownload\Command\InfoCommand;
 use MageDownload\Command\PHPUnit\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -29,13 +30,13 @@ class InfoCommandTest extends TestCase
      */
     public function testFilesAction()
     {
-        $command       = $this->getApplication()->find('info');
+        $command       = $this->getApplication()->find(InfoCommand::NAME);
         $commandTester = new CommandTester($command);
         $result        = $commandTester->execute([
-            'command' => 'info',
-            'action'  => 'files',
-            '--id'    => $_SERVER['MAGENTO_ID'],
-            '--token' => $_SERVER['MAGENTO_TOKEN'],
+            'command'                    => InfoCommand::NAME,
+            InfoCommand::ARGUMENT_ACTION => 'files',
+            '--id'                       => $this->getAccountId(),
+            '--token'                    => $this->getAccessToken(),
         ]);
         $this->assertEquals(0, $result);
         $this->assertContains('File Name', $commandTester->getDisplay());
@@ -48,13 +49,13 @@ class InfoCommandTest extends TestCase
      */
     public function testVersionsAction()
     {
-        $command       = $this->getApplication()->find('info');
+        $command       = $this->getApplication()->find(InfoCommand::NAME);
         $commandTester = new CommandTester($command);
         $result        = $commandTester->execute([
-            'command' => 'info',
-            'action'  => 'versions',
-            '--id'    => $_SERVER['MAGENTO_ID'],
-            '--token' => $_SERVER['MAGENTO_TOKEN'],
+            'command'                    => InfoCommand::NAME,
+            InfoCommand::ARGUMENT_ACTION => 'versions',
+            '--id'                       => $this->getAccountId(),
+            '--token'                    => $this->getAccessToken(),
         ]);
         $this->assertEquals(0, $result);
         $this->assertContains('CE Versions', $commandTester->getDisplay());

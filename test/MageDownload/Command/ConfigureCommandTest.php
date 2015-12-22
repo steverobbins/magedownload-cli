@@ -14,6 +14,7 @@
 
 namespace MageDownload\Test\Command;
 
+use MageDownload\Command\ConfigureCommand;
 use MageDownload\Command\PHPUnit\TestCase;
 use Symfony\Component\Console\Tester\CommandTester;
 
@@ -29,12 +30,12 @@ class ConfigureCommandTest extends TestCase
      */
     public function testCommand()
     {
-        $command       = $this->getApplication()->find('configure');
+        $command       = $this->getApplication()->find(ConfigureCommand::NAME);
         $commandTester = new CommandTester($command);
         $result        = $commandTester->execute([
-            'command' => 'configure',
-            '--id'    => $_SERVER['MAGENTO_ID'],
-            '--token' => $_SERVER['MAGENTO_TOKEN'],
+            'command' => ConfigureCommand::NAME,
+            '--id'    => $this->getAccountId(),
+            '--token' => $this->getAccessToken(),
         ]);
         $this->assertEquals(0, $result);
         $this->assertContains('Configuration successfully updated', $commandTester->getDisplay());

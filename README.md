@@ -109,17 +109,19 @@ or
 
 Configures your account ID and access token.
 
-### `file`
+### `download`
 
-    $ php magedownload.phar file <name> [<destination>]
+    $ php magedownload.phar download <name> [<destination>] [--extract]
 
 or
 
-    $ php n98-magerun.phar download:file <name> [<destination>]
+    $ php n98-magerun.phar download:download <name> [<destination>] [--extract]
 
 Downloads the specified file to the given destination.
 
 If no destination is given, the file is downloaded to current directory.
+
+When `--extract` is given, the downloaded file will be extracted when possible (zip, gz, bz2, etc)
 
 ### `info`
 
