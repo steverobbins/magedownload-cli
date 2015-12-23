@@ -14,9 +14,7 @@
 
 namespace MageDownload\Command\PHPUnit;
 
-use MageDownload\Command\ConfigureCommand;
-use MageDownload\Command\DownloadCommand;
-use MageDownload\Command\InfoCommand;
+use MageDownload\Command\Setup;
 use MageDownload\Config;
 use PHPUnit_Framework_TestCase;
 use Symfony\Component\Console\Application;
@@ -48,9 +46,9 @@ class TestCase extends PHPUnit_Framework_TestCase
     public function getApplication()
     {
         $app = new Application;
-        $app->add(new ConfigureCommand);
-        $app->add(new DownloadCommand);
-        $app->add(new InfoCommand);
+        foreach (Setup::getCommandClasses() as $class) {
+            $app->add(new $class);
+        }
         return $app;
     }
 
