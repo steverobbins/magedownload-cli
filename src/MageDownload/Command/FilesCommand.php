@@ -15,7 +15,6 @@
 namespace MageDownload\Command;
 
 use MageDownload\Info;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -37,8 +36,8 @@ class FilesCommand extends AbstractCommand
     const API_ACTION_FILES  = 'files';
     const API_ACTION_FILTER = 'filter';
 
-    const OPTION_FILTER_VERSION = 'filter-version';
     const OPTION_FILTER_TYPE    = 'filter-type';
+    const OPTION_FILTER_VERSION = 'filter-version';
 
     protected $typeFilters = array(
         'ce-full',

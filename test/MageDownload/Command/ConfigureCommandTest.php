@@ -39,5 +39,6 @@ class ConfigureCommandTest extends TestCase
         ));
         $this->assertEquals(0, $result);
         $this->assertContains('Configuration successfully updated', $commandTester->getDisplay());
+        unset($_SERVER['MAGENTO_ID'], $_SERVER['MAGNETO_TOKEN']);
     }
 }

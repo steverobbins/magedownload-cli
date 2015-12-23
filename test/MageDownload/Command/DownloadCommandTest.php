@@ -36,8 +36,6 @@ class DownloadCommandTest extends TestCase
             'command'                             => DownloadCommand::NAME,
             DownloadCommand::ARGUMENT_NAME        => 'PATCH_SUPEE-6788_CE_1.9.2.1_v1.sh',
             DownloadCommand::ARGUMENT_DESTINATION => '/tmp/patch.sh',
-            '--id'                                => $this->getAccountId(),
-            '--token'                             => $this->getAccessToken(),
         ));
         $this->assertEquals(0, $result);
         $this->assertContains('Complete', $commandTester->getDisplay());
@@ -57,8 +55,6 @@ class DownloadCommandTest extends TestCase
             'command'                              => DownloadCommand::NAME,
             DownloadCommand::ARGUMENT_NAME         => 'magento-1.9.0.0.zip',
             DownloadCommand::ARGUMENT_DESTINATION  => '/tmp/magento-zip.zip',
-            '--id'                                 => $this->getAccountId(),
-            '--token'                              => $this->getAccessToken(),
             '--' . DownloadCommand::OPTION_EXTRACT => true,
         ));
         $this->assertEquals(0, $result);
@@ -79,8 +75,6 @@ class DownloadCommandTest extends TestCase
             'command'                              => DownloadCommand::NAME,
             DownloadCommand::ARGUMENT_NAME         => 'magento-1.9.0.0.tar.gz',
             DownloadCommand::ARGUMENT_DESTINATION  => '/tmp/magento-targz.tar.gz',
-            '--id'                                 => $this->getAccountId(),
-            '--token'                              => $this->getAccessToken(),
             '--' . DownloadCommand::OPTION_EXTRACT => true,
         ));
         $this->assertEquals(0, $result);
@@ -101,12 +95,71 @@ class DownloadCommandTest extends TestCase
             'command'                              => DownloadCommand::NAME,
             DownloadCommand::ARGUMENT_NAME         => 'magento-1.9.0.0.tar.bz2',
             DownloadCommand::ARGUMENT_DESTINATION  => '/tmp/magento-tarbz2.tar.bz2',
-            '--id'                                 => $this->getAccountId(),
-            '--token'                              => $this->getAccessToken(),
             '--' . DownloadCommand::OPTION_EXTRACT => true,
         ));
         $this->assertEquals(0, $result);
         $this->assertContains('Complete', $commandTester->getDisplay());
         $this->assertFileExists('/tmp/magento-tarbz2/index.php');
+    }
+
+    /**
+     * Test using --extract on a file that doesn't need it
+     *
+     * @return void
+     */
+    public function testCommandSkipExtract()
+    {
+        $command       = $this->getApplication()->find(DownloadCommand::NAME);
+        $commandTester = new CommandTester($command);
+        $result        = $commandTester->execute(array(
+            'command'                              => DownloadCommand::NAME,
+            DownloadCommand::ARGUMENT_NAME         => 'PATCH_SUPEE-6788_CE_1.9.2.1_v1.sh',
+            DownloadCommand::ARGUMENT_DESTINATION  => '/tmp/patch.sh',
+            '--' . DownloadCommand::OPTION_EXTRACT => true,
+        ));
+        $this->assertEquals(0, $result);
+        $this->assertContains('Complete', $commandTester->getDisplay());
+        $this->assertFileExists('/tmp/patch.sh');
+    }
+
+    /**
+     * Test a failed extraction
+     *
+     * @return void
+     */
+    public function testCommandBadExtract()
+    {
+        $command       = $this->getApplication()->find(DownloadCommand::NAME);
+        $commandTester = new CommandTester($command);
+        $result        = $commandTester->execute(array(
+            'command'                              => DownloadCommand::NAME,
+            DownloadCommand::ARGUMENT_NAME         => 'PATCH_SUPEE-6788_CE_1.9.2.1_v1.sh',
+            DownloadCommand::ARGUMENT_DESTINATION  => '/tmp/patch.zip',
+            '--' . DownloadCommand::OPTION_EXTRACT => true,
+        ));
+        $this->assertEquals(0, $result);
+        $this->assertContains('Failed to extract contents', $commandTester->getDisplay());
+        $this->assertContains('Complete', $commandTester->getDisplay());
+        $this->assertFileExists('/tmp/patch.zip');
+    }
+
+    /**
+     * Test downloading when destination is a folder
+     *
+     * @return void
+     */
+    public function testCommandFolderDestination()
+    {
+        $command       = $this->getApplication()->find(DownloadCommand::NAME);
+        $commandTester = new CommandTester($command);
+        $result        = $commandTester->execute(array(
+            'command'                              => DownloadCommand::NAME,
+            DownloadCommand::ARGUMENT_NAME         => 'PATCH_SUPEE-6788_CE_1.9.2.1_v1.sh',
+            DownloadCommand::ARGUMENT_DESTINATION  => '/tmp/',
+            '--' . DownloadCommand::OPTION_EXTRACT => true,
+        ));
+        $this->assertEquals(0, $result);
+        $this->assertContains('Complete', $commandTester->getDisplay());
+        $this->assertFileExists('/tmp/PATCH_SUPEE-6788_CE_1.9.2.1_v1.sh');
     }
 }

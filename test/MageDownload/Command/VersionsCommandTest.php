@@ -34,8 +34,6 @@ class VersionsCommandTest extends TestCase
         $commandTester = new CommandTester($command);
         $result        = $commandTester->execute(array(
             'command' => VersionsCommand::NAME,
-            '--id'    => $this->getAccountId(),
-            '--token' => $this->getAccessToken(),
         ));
         $this->assertEquals(0, $result);
         $this->assertContains('CE Versions', $commandTester->getDisplay());
