@@ -5,7 +5,7 @@ MageDownload CLI
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/steverobbins/magedownload-cli/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/steverobbins/magedownload-cli/?branch=master)
 [![codecov.io](https://codecov.io/github/steverobbins/magedownload-cli/coverage.svg?branch=master)](https://codecov.io/github/steverobbins/magedownload-cli?branch=master)
 
-A PHP tool to automate Magento release and patch downloads using [Magento's download API](https://gist.github.com/piotrekkaminski/9bc45ec84028611d621e)
+A PHP tool to automate Magento release and patch downloads using [Magento's download API](https://gist.github.com/piotrekkaminski/9bc45ec84028611d621e).
 
 ![Example](http://i.imgur.com/z1dcTvs.gif)
 
