@@ -121,7 +121,7 @@ or
 
     $ php n98-magerun.phar download:versions
 
-Lists all Magento versions that have been publically released.
+Lists all Magento versions that have been released.
 
 # Support
 
