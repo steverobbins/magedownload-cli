@@ -30,10 +30,18 @@ class VersionsCommandTest extends TestCase
      */
     public function testExecute()
     {
+        // Config file should be set by now, try using it (coverage)
+        foreach (array('MAGENTO_ID', 'MAGENTO_TOKEN') as $key) {
+            if (isset($_SERVER[$key])) {
+                unset($_SERVER[$key]);
+            }
+        }
         $command       = $this->getApplication()->find(VersionsCommand::NAME);
         $commandTester = new CommandTester($command);
         $result        = $commandTester->execute(array(
             'command' => VersionsCommand::NAME,
+            '--id'    => $this->getAccountId(),
+            '--token' => $this->getAccessToken(),
         ));
         $this->assertEquals(0, $result);
         $this->assertContains('CE Versions', $commandTester->getDisplay());
