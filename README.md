@@ -8,6 +8,7 @@ MageDownload CLI
 A PHP tool to automate Magento release and patch downloads using [Magento's download API](https://gist.github.com/piotrekkaminski/9bc45ec84028611d621e).
 
 ![Example](http://i.imgur.com/z1dcTvs.gif)
+![Example with Prompts](http://i.imgur.com/SDPF62k.gif)
 
 # Installation
 
@@ -82,13 +83,15 @@ See `php magedownload.phar help configure` for details.
 
 ### `download`
 
-    $ php magedownload.phar download <name> [<destination>] [--extract]
+    $ php magedownload.phar download [<name>] [<destination>] [--extract]
 
 or
 
-    $ php n98-magerun.phar download:download <name> [<destination>] [--extract]
+    $ php n98-magerun.phar download:download [<name>] [<destination>] [--extract]
 
 Downloads the specified file to the given destination.  Use the `files` command to find the correct `<name>`.
+
+If no name is given, you will be prompted to select a file to download.
 
 If no destination is given, the file is downloaded to current directory.
 
