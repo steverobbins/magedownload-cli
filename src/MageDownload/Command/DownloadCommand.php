@@ -15,6 +15,7 @@
 namespace MageDownload\Command;
 
 use MageDownload\Download;
+use MageDownload\Info;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
@@ -39,6 +40,83 @@ class DownloadCommand extends AbstractCommand
     const ARGUMENT_DESTINATION = 'destination';
 
     const OPTION_EXTRACT = 'extract';
+
+    protected $downloads;
+
+    /**
+     * Interactively select a file to download
+     *
+     * @param InputInterface  $input
+     * @param OutputInterface $output
+     *
+     * @return void
+     */
+    protected function interact(InputInterface $input, OutputInterface $output)
+    {
+        if (!$input->getArgument(self::ARGUMENT_NAME)) {
+            $info = new Info;
+            $action = 'filter/version/*';
+
+            $result = $info->sendCommand(
+                $action,
+                $this->getAccountId(),
+                $this->getAccessToken()
+            );
+
+            $bits = preg_split('/\-{5,}/', $result);
+            if (count($bits) == 1) {
+                return $this->out(trim($result));
+            }
+            $headers = array();
+            foreach (preg_split('/ {2,}/', $bits[0]) as $value) {
+                $headers[] = trim($value);
+            }
+            $rows = array();
+            foreach (explode("\n", $bits[1]) as $row) {
+                if (empty($row)) {
+                    continue;
+                }
+                $row = preg_split('/ {2,}/', $row);
+                $rows[] = array_combine($headers, $row);
+            }
+            $this->downloads = $rows;
+
+            $dialog = $this->getHelper('dialog');
+            $selectedMsg = 'You have just selected: <info>%s</info>' . PHP_EOL;
+
+            $types = $this->getTypes();
+            $type = $dialog->select(
+                $this->output,
+                '<question>Choose a type of download:</question>',
+                $types,
+                0
+            );
+            $type = $types[$type];
+            $this->output->writeln(sprintf($selectedMsg, $type));
+
+            $versions = $this->getVersionsByType($type);
+            $version = $dialog->select(
+                $this->output,
+                '<question>Choose a version:</question>',
+                $versions,
+                0
+            );
+            $version = $versions[$version];
+            $this->output->writeln(sprintf($selectedMsg, $version));
+
+            $files = $this->getFilesByTypeAndVersion($type, $version);
+            $file = $dialog->select(
+                $this->output,
+                '<question>Choose a file:</question>',
+                $files,
+                0
+            );
+            $file = $files[$file];
+            $this->output->writeln(sprintf($selectedMsg, $file));
+
+            $this->input->setArgument(self::ARGUMENT_NAME, $file);
+        }
+    }
 
     /**
      * Configure command
@@ -154,5 +232,39 @@ class DownloadCommand extends AbstractCommand
             return $dest . $this->input->getArgument(self::ARGUMENT_NAME);
         }
         return $dest;
+    }
+
+    protected function getTypes()
+    {
+        $matches = array();
+        foreach ($this->downloads as $download) {
+            $matches[] = $download['File Type'];
+        }
+
+        return array_values(array_unique($matches));
+    }
+
+    protected function getVersionsByType($type)
+    {
+        $matches = array();
+        foreach ($this->downloads as $download) {
+            if ($download['File Type'] === $type) {
+                $matches[] = $download['Version'];
+            }
+        }
+
+        return array_values(array_unique($matches));
+    }
+
+    protected function getFilesByTypeAndVersion($type, $version)
+    {
+        $matches = array();
+        foreach ($this->downloads as $download) {
+            if ($download['File Type'] === $type && $download['Version'] === $version) {
+                $matches[] = $download['File Name'];
+            }
+        }
+
+        return array_values(array_unique($matches));
     }
 }
