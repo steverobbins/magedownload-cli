@@ -91,7 +91,8 @@ class FilesCommand extends AbstractCommand
         return $this->render($info->sendCommand(
             $action . $filters,
             $this->getAccountId(),
-            $this->getAccessToken()
+            $this->getAccessToken(),
+            true
         ));
     }
 
@@ -127,30 +128,17 @@ class FilesCommand extends AbstractCommand
     /**
      * Render the files action
      *
-     * @param string $result
+     * @param array $result
      *
      * @return void
      */
-    protected function render($result)
+    protected function render(array $result)
     {
-        $bits = preg_split('/\-{5,}/', $result);
-        if (count($bits) == 1) {
-            return $this->out(trim($result));
+        if (count($result) == 1) {
+            return $this->out(trim($result[0]));
         }
-        $headers = array();
-        foreach (preg_split('/ {2,}/', $bits[0]) as $value) {
-            $headers[] = trim($value);
-        }
-        unset($headers[0]);
-        $rows = array();
-        foreach (explode("\n", $bits[1]) as $row) {
-            if (empty($row)) {
-                continue;
-            }
-            $row = preg_split('/ {2,}/', $row);
-            unset($row[0]);
-            $rows[] = $row;
-        }
+        $headers = array_keys($result[0]);
+        $rows = array_map('array_values', $result);
         usort($rows, array($this, 'sortFiles'));
         $this->out(array(array(
             'type' => 'table',
@@ -171,6 +159,11 @@ class FilesCommand extends AbstractCommand
      */
     protected function sortFiles($a, $b)
     {
-        return strcmp($a[1], $b[1]) ?: strcmp($a[2], $a[2]);
+        foreach (array_keys($a) as $key) {
+            $test = strcmp($a[$key], $b[$key]);
+            if ($test) {
+                return $test;
+            }
+        }
     }
 }

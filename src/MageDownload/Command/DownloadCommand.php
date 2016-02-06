@@ -41,6 +41,23 @@ class DownloadCommand extends AbstractCommand
 
     const OPTION_EXTRACT = 'extract';
 
+    /**
+     * Organized files that can be downloaded
+     *
+     * I.e. array(
+     *     'Community Edition - Full' => array(
+     *         '1.9.1.1' => array(
+     *             '1.9.1.1.tar.bz2',
+     *             '1.9.1.1.tar.gz',
+     *             '1.9.1.1.zip',
+     *         ),
+     *         ...
+     *     ),
+     *     ...
+     * )
+     *
+     * @var array
+     */
     protected $downloads;
 
     /**
@@ -55,36 +72,18 @@ class DownloadCommand extends AbstractCommand
     {
         if (!$input->getArgument(self::ARGUMENT_NAME)) {
             $info = new Info;
-            $action = 'filter/version/*';
-
-            $result = $info->sendCommand(
-                $action,
+            $this->prepareDownloads($info->sendCommand(
+                'filter/version/*',
                 $this->getAccountId(),
-                $this->getAccessToken()
-            );
-
-            $bits = preg_split('/\-{5,}/', $result);
-            if (count($bits) == 1) {
-                return $this->out(trim($result));
-            }
-            $headers = array();
-            foreach (preg_split('/ {2,}/', $bits[0]) as $value) {
-                $headers[] = trim($value);
-            }
-            $rows = array();
-            foreach (explode("\n", $bits[1]) as $row) {
-                if (empty($row)) {
-                    continue;
-                }
-                $row = preg_split('/ {2,}/', $row);
-                $rows[] = array_combine($headers, $row);
-            }
-            $this->downloads = $rows;
-
+                $this->getAccessToken(),
+                true
+            ));
             $dialog = $this->getHelper('dialog');
-            $selectedMsg = 'You have just selected: <info>%s</info>' . PHP_EOL;
+            $selectedMsg = 'You have selected: <info>%s</info>';
 
-            $types = $this->getTypes();
+            // Pick a type
+            $types = array_keys($this->downloads);
+            sort($types);
             $type = $dialog->select(
                 $this->output,
                 '<question>Choose a type of download:</question>',
@@ -94,7 +93,9 @@ class DownloadCommand extends AbstractCommand
             $type = $types[$type];
             $this->output->writeln(sprintf($selectedMsg, $type));
 
-            $versions = $this->getVersionsByType($type);
+            // Pick a version
+            $versions = array_keys($this->downloads[$type]);
+            sort($versions);
             $version = $dialog->select(
                 $this->output,
                 '<question>Choose a version:</question>',
@@ -104,7 +105,9 @@ class DownloadCommand extends AbstractCommand
             $version = $versions[$version];
             $this->output->writeln(sprintf($selectedMsg, $version));
 
-            $files = $this->getFilesByTypeAndVersion($type, $version);
+            // Pick a file
+            $files = $this->downloads[$type][$version];
+            sort($files);
             $file = $dialog->select(
                 $this->output,
                 '<question>Choose a file:</question>',
@@ -234,37 +237,24 @@ class DownloadCommand extends AbstractCommand
         return $dest;
     }
 
-    protected function getTypes()
+    /**
+     * Sort files in their types and versions
+     *
+     * @param array $files
+     *
+     * @return void
+     */
+    protected function prepareDownloads(array $files)
     {
-        $matches = array();
-        foreach ($this->downloads as $download) {
-            $matches[] = $download['File Type'];
-        }
-
-        return array_values(array_unique($matches));
-    }
-
-    protected function getVersionsByType($type)
-    {
-        $matches = array();
-        foreach ($this->downloads as $download) {
-            if ($download['File Type'] === $type) {
-                $matches[] = $download['Version'];
+        $this->downloads = array();
+        foreach ($files as $file) {
+            if (!isset($this->downloads[$file['File Type']])) {
+                $this->downloads[$file['File Type']] = array();
             }
-        }
-
-        return array_values(array_unique($matches));
-    }
-
-    protected function getFilesByTypeAndVersion($type, $version)
-    {
-        $matches = array();
-        foreach ($this->downloads as $download) {
-            if ($download['File Type'] === $type && $download['Version'] === $version) {
-                $matches[] = $download['File Name'];
+            if (!isset($this->downloads[$file['File Type']][$file['Version']])) {
+                $this->downloads[$file['File Type']][$file['Version']] = array();
             }
+            $this->downloads[$file['File Type']][$file['Version']][] = $file['File Name'];
         }
-
-        return array_values(array_unique($matches));
     }
 }

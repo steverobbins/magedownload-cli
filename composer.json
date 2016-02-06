@@ -3,7 +3,7 @@
     "description": "Download Magento editions and patches via command line",
     "require": {
         "symfony/console": "^2.7",
-        "steverobbins/magedownload": "^1.2"
+        "steverobbins/magedownload": "^1.3"
     },
     "require-dev": {
         "phpunit/phpunit": "~4.0",
