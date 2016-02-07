@@ -174,7 +174,7 @@ class DownloadCommandTest extends TestCase
     public function testCommandWithPrompts()
     {
         $command = $this->getApplication()->find(DownloadCommand::NAME);
-        $command->setHelperSet(new HelperSet([new DialogHelper]));
+        $command->setHelperSet(new HelperSet(array(new DialogHelper)));
         $commandTester = new CommandTester($command);
         $command->getHelper('dialog')->setInputStream($this->getInputStream("1\n0\n0\n"));
         $result = $commandTester->execute(array(
