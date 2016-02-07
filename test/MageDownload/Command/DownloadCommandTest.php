@@ -16,7 +16,10 @@ namespace MageDownload\Test\Command;
 
 use MageDownload\Command\DownloadCommand;
 use MageDownload\Command\PHPUnit\TestCase;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Helper\HelperSet;
 use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Console\Input\ArgvInput;
 
 /**
  * Test the file command
@@ -161,5 +164,38 @@ class DownloadCommandTest extends TestCase
         $this->assertEquals(0, $result);
         $this->assertContains('Complete', $commandTester->getDisplay());
         $this->assertFileExists('/tmp/PATCH_SUPEE-6788_CE_1.9.2.1_v1.sh');
+    }
+
+    /**
+     * Test downloading using prompts
+     *
+     * @return void
+     */
+    public function testCommandWithPrompts()
+    {
+        $command = $this->getApplication()->find(DownloadCommand::NAME);
+        $command->setHelperSet(new HelperSet([new DialogHelper]));
+        $commandTester = new CommandTester($command);
+        $command->getHelper('dialog')->setInputStream($this->getInputStream("1\n0\n0\n"));
+        $result = $commandTester->execute(array(
+            'command' => DownloadCommand::NAME,
+        ), array('interactive' => new ArgvInput));
+        $this->assertEquals(0, $result);
+        $this->assertContains('Complete', $commandTester->getDisplay());
+    }
+
+    /**
+     * Send prompts to PHP
+     *
+     * @param sring $input
+     *
+     * @return resource
+     */
+    protected function getInputStream($input)
+    {
+        $stream = fopen('php://memory', 'r+', false);
+        fputs($stream, $input);
+        rewind($stream);
+        return $stream;
     }
 }
