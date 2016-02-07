@@ -17,7 +17,7 @@ require_once __DIR__ . '/../vendor/autoload.php';
 use MageDownload\Command\Setup;
 use Symfony\Component\Console\Application;
 
-$app = new Application('MageDownload CLI', '2.0.0');
+$app = new Application('MageDownload CLI', '2.1.0');
 
 foreach (Setup::getCommandClasses() as $class) {
     $app->add(new $class);
