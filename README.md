@@ -34,9 +34,8 @@ And can be used: `magedownload help`
 
 ```
 mkdir -p ~/.n98-magerun/modules
-cd ~/.n98-magerun/modules
-git clone https://github.com/steverobbins/magedownload-cli
-cd magedownload-cli
+git clone https://github.com/steverobbins/magedownload-cli ~/.n98-magerun/modules/magedownload-cli
+cd ~/.n98-magerun/modules/magedownload-cli
 curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 ```
